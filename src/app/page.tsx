@@ -1,24 +1,19 @@
 "use client";
 import { ImageProps } from "@/app/interface";
-import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteDialog from "@/components/DeleteDialog";
+import EnlargedViewDialog from "@/components/EnlargedViewDialog";
+import Header from "@/components/Header";
+import ImageCard from "@/components/ImageCard";
+import Loading from "@/components/Loading";
+import UploadButton from "@/components/UploadButton";
+import Wrapper from "@/components/Wrapper";
 import {
   Box,
-  Button,
-  Card,
-  CardMedia,
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  IconButton,
-  Typography,
+  Grid
 } from "@mui/material";
 import axios from "axios";
-import Image from "next/image";
 import { useEffect, useState } from "react";
+
 
 export default function GalleryPage() {
 
@@ -79,180 +74,46 @@ export default function GalleryPage() {
   };
 
   return (
-    <Box
-      sx={{
-        p: 4,
-        bgcolor: "#fff",
-        minHeight: "100vh",
-        fontFamily: "'SF Pro Display', 'Helvetica Neue', Arial, sans-serif",
-      }}
-    >
-      {/* ローディング */}
-      {loading && (
-        <Box
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            bgcolor: "rgba(255,255,255,0.8)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 2000,
-          }}
-        >
-          <CircularProgress color="inherit" size={60} />
-        </Box>
-      )}
+    <Wrapper>
+       {/* ローディング */}
+       {loading && <Loading />}
 
-      {/* ヘッダー */}
-      <Box mb={4} textAlign="center">
-      <Typography
-        variant="h3"
-        align="center"
-        sx={{
-          fontWeight: 600,
-          letterSpacing: "-0.02em",
-          mb: 4,
-          background: "linear-gradient(90deg, #000, #444)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}
-      >
-        Every image. A story.
-      </Typography>
-        <Button
-          variant="contained"
-          component="label"
-          sx={{
-            textTransform: "none",
-            fontSize: "1rem",
-            px: 3,
-            py: 1,
-            borderRadius: "30px",
-            bgcolor: "#111",
-            "&:hover": { bgcolor: "#333" },
-          }}
-        >
-          画像をアップロード
-          <input type="file" hidden accept="image/*" onChange={handleUpload} />
-        </Button>
-      </Box>
+  {/* ヘッダー */}
+  <Box mb={4} textAlign="center">
+    <Header text={" Every image. A story."} />
 
-      {/* 画像一覧 */}
-      <Grid container spacing={3} justifyContent="center">
-        {images.map((img, idx) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={idx}>
-            <Card
-              onClick={() => setSelectedImage(img)}
-              sx={{
-                cursor: "pointer",
-                borderRadius: "20px",
-                overflow: "hidden",
-                boxShadow: "0 10px 20px rgba(0,0,0,0.08)",
-                transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                "&:hover": {
-                  transform: "translateY(-5px)",
-                  boxShadow: "0 15px 30px rgba(0,0,0,0.12)",
-                },
-              }}
-            >
-              <CardMedia
-                component="img"
-                height="200"
-                image={img.url}
-                alt={`img-${idx}`}
-                sx={{ objectFit: "cover" }}
-              />
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      <Dialog
-  open={!!selectedImage}
-  onClose={() => setSelectedImage(null)}
-  maxWidth="md"
-  fullWidth
-  PaperProps={{
-    sx: {
-      borderRadius: "20px",
-      boxShadow: "0 20px 40px rgba(0,0,0,0.5)",
-      backgroundColor: "#121212", // ダーク背景
-      color: "#fff", // 文字色を白に
-    },
-  }}
->
-  <DialogTitle sx={{ textAlign: "right", p: 2 }}>
-    <IconButton
-      aria-label="close"
-      onClick={() => setSelectedImage(null)}
-      sx={{ color: "#fff" }}
-    >
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
-  <DialogContent sx={{ textAlign: "center", p: 3 }}>
-    {selectedImage && (
-      <>
-        <Image
-          src={selectedImage.url}
-          alt={selectedImage.name}
-          width={0}
-          height={0}
-          sizes="100vw"
-          style={{
-            width: "100%",
-            height: "auto",
-            borderRadius: "12px",
-            objectFit: "contain",
-          }}
-        />
-        <Box mt={3}>
-          <Typography variant="h6" sx={{ fontWeight: 500, color: "#fff" }}>
-            {selectedImage.name}
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#ccc", mt: 1 }}>
-            {new Date(selectedImage.creation_time).toLocaleString("ja-JP")}
-          </Typography>
-        </Box>
-      </>
-    )}
-  </DialogContent>
-  <DialogActions sx={{ justifyContent: "center", pb: 3 }}>
-    <Button
-      variant="contained"
-      color="error"
-      startIcon={<DeleteIcon />}
-      onClick={() => setDeleteConfirmOpen(true)}
-      sx={{
-        borderRadius: "30px",
-        px: 3,
-        textTransform: "none",
-        fontWeight: 500,
-      }}
-    >
-      削除
-    </Button>
-  </DialogActions>
-</Dialog>
+    <UploadButton onChange={handleUpload} />
 
 
-      {/* 削除確認 */}
-      <Dialog open={deleteConfirmOpen} onClose={() => setDeleteConfirmOpen(false)}>
-        <DialogTitle sx={{ fontWeight: 600 }}>削除確認</DialogTitle>
-        <DialogContent>
-          <Typography>この画像を削除しますか？</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteConfirmOpen(false)}>キャンセル</Button>
-          <Button color="error" variant="contained" onClick={handleDelete}>
-            削除する
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+  </Box>
+
+  {/* 画像一覧 */}
+  <Grid container spacing={3} justifyContent="center">
+    {images.map((img, idx) => (
+      <ImageCard
+      key={idx}
+      onClick={() => setSelectedImage(img)}
+      url={img.url}
+      />
+    ))}
+  </Grid>
+
+  <EnlargedViewDialog
+    isOpen={!!selectedImage}
+    onCloseDialog={() => setSelectedImage(null)}
+    onClickClose={() => setSelectedImage(null)}
+    selectedImage={selectedImage}
+    onClickDelete={() => setDeleteConfirmOpen(true)}
+  />
+
+  {/* 削除確認 */}
+  <DeleteDialog
+    isOpen={deleteConfirmOpen}
+    onClose={() => setDeleteConfirmOpen(false)}
+    onClickCancel={() => setDeleteConfirmOpen(false)}
+    onClickDelete={handleDelete}
+    />
+  </Wrapper>
+
   );
 }
