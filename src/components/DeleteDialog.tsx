@@ -19,14 +19,14 @@ const DeleteDialog = ({isOpen,
     onClickDelete}:DeleteDialogProps) => {
   return (
     <Dialog open={isOpen} onClose={onClose}>
-    <DialogTitle sx={{ fontWeight: 600 }}>削除確認</DialogTitle>
+    <DialogTitle sx={{ fontWeight: 600 }}>Delete confirmation</DialogTitle>
     <DialogContent>
-      <Typography>この画像を削除しますか？</Typography>
+      <Typography>Do you want to delete this image?</Typography>
     </DialogContent>
     <DialogActions>
-      <Button onClick={onClickCancel}>キャンセル</Button>
+      <Button onClick={onClickCancel}>Cancel</Button>
       <Button color="error" variant="contained" onClick={onClickDelete}>
-        削除する
+        Delete
       </Button>
     </DialogActions>
   </Dialog>

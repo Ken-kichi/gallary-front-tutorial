@@ -21,7 +21,7 @@ const DeleteButton = ({onClick}:DeleteButtonProps) => {
               fontWeight: 500,
             }}
           >
-            削除
+            Delete
           </Button>
   )
 }
