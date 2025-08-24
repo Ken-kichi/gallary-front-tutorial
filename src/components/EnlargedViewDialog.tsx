@@ -2,13 +2,13 @@ import { ImageProps } from "@/app/interface";
 import DeleteButton from "@/components/DeleteButton";
 import CloseIcon from "@mui/icons-material/Close";
 import {
-    Box,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    Typography
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Typography
 } from "@mui/material";
 import Image from "next/image";
 

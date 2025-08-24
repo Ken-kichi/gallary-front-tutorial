@@ -1,7 +1,5 @@
 import { Box } from "@mui/material";
 import { ReactNode } from "react";
-
-// インターフェースを修正してcontentの型を明示
 interface WrapperProps {
     children: ReactNode;
 }

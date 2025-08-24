@@ -1,6 +1,5 @@
-"use client";
 import {
-    Typography
+  Typography
 } from "@mui/material";
 
 interface HeaderProps {text:string}

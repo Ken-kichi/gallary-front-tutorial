@@ -1,7 +1,6 @@
-"use client";
 import {
-    Box,
-    CircularProgress
+  Box,
+  CircularProgress
 } from "@mui/material";
 const Loading = () => {
   return (

@@ -1,6 +1,5 @@
-"use client";
 import {
-    Button
+  Button
 } from "@mui/material";
 
 interface UploadButtonProps {

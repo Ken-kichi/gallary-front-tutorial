@@ -1,7 +1,6 @@
-"use client";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
-    Button
+  Button
 } from "@mui/material";
 
 interface DeleteButtonProps {
